@@ -14,7 +14,9 @@
         <tbody>
         <tr v-for="product in products">
             <th>{{ product.id }}</th>
-            <td>{{ product.name }}</td>
+            <td>
+                <router-link :to="{name: 'product.show', params: {id: product.id}}">{{ product.name }}</router-link>
+            </td>
             <td>{{ product.description }}</td>
             <td>{{ product.price }}</td>
             <td>
