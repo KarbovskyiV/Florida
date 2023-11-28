@@ -10,6 +10,9 @@
             <input type="number" v-model="price" placeholder="price" class="form-control">
         </div>
         <div class="mb-3">
+            <router-link :to="{name: 'product.index'}" class="btn btn-outline-secondary me-3">
+                Cancel
+            </router-link>
             <input @click.prevent="storeProduct" type="submit" value="Create" class="btn btn-outline-primary">
         </div>
     </div>
