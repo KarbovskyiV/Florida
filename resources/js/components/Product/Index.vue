@@ -1,4 +1,5 @@
 <template>
+    <router-link :to="{name: 'product.create'}">Create</router-link>
     <table class="table">
         <thead>
         <tr>
@@ -6,6 +7,7 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Price</th>
+            <th scope="col">Edit</th>
         </tr>
         </thead>
         <tbody>
@@ -14,6 +16,9 @@
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.price }}</td>
+            <td>
+                <router-link :to="{name: 'product.edit', params: {id: product.id}}">Edit</router-link>
+            </td>
         </tr>
         </tbody>
     </table>
