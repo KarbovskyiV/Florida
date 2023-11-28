@@ -8,6 +8,7 @@
             <th scope="col">Description</th>
             <th scope="col">Price</th>
             <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -18,6 +19,9 @@
             <td>{{ product.price }}</td>
             <td>
                 <router-link :to="{name: 'product.edit', params: {id: product.id}}">Edit</router-link>
+            </td>
+            <td>
+                <a @click.prevent="destroyProduct(product.id)" href="#" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -47,6 +51,13 @@ export default {
                 .catch(error => {
                     console.error('Error while fetching products:', error);
                 });
+        },
+
+        destroyProduct(id) {
+            axios.delete(`/api/products/${id}`)
+                .then(res => {
+                    this.getProducts()
+                })
         }
     }
 }

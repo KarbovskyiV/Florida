@@ -37,8 +37,10 @@ class ProductController extends Controller
         return response([]);
     }
 
-    public function destroy()
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response([]);
     }
 }
