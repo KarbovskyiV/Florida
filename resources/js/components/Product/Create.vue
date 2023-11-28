@@ -34,7 +34,7 @@ export default {
                     this.$router.push({name: 'product.index'})
                 })
                 .catch(error => {
-                    console.error('Error while fetching products:', error);
+                    console.error('Error while creating product:', error);
                 });
         }
     }
