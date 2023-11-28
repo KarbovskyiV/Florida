@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link :to="{name: 'product.create'}">Create</router-link>
         <router-view></router-view>
     </div>
 </template>
