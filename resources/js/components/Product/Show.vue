@@ -1,13 +1,16 @@
 <template>
     <div v-if="product">
-        <div>
+        <div class="mb-3">
             Name: {{ this.product.name }}
         </div>
-        <div>
-            Age: {{ this.product.description }}
+        <div class="mb-3">
+            Description: {{ this.product.description }}
         </div>
-        <div>
-            Job: {{ this.product.price }}
+        <div class="mb-3">
+            Price: {{ this.product.price }}
+        </div>
+        <div class="mb-3">
+            <img :src="product.imagePath" alt="Product Image" class="img-thumbnail">
         </div>
         <router-link :to="{name: 'product.index'}" class="btn btn-outline-secondary me-3">
             To all
@@ -35,6 +38,7 @@ export default {
             axios.get(`/api/products/${this.$route.params.id}`)
                 .then(res => {
                     this.product = res.data.data
+                    this.product.imagePath = `/storage/${this.product.image}`;
                 })
         },
     }
@@ -43,4 +47,10 @@ export default {
 
 <style scoped>
 
+.img-thumbnail {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+}
 </style>
