@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 
@@ -14,9 +15,12 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function store()
+    public function store(ProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        Product::query()->create($data);
+
+        return response([]);
     }
 
     public function show()
