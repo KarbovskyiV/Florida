@@ -19,6 +19,12 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $data['image'] = $imagePath;
+        }
+
         Product::query()->create($data);
 
         return response([]);
