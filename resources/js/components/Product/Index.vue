@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="product in products">
+        <tr v-for="product in products.data" :key="product.id">
             <th>{{ product.id }}</th>
             <td>
                 <router-link :to="{name: 'product.show', params: {id: product.id}}">{{ product.name }}</router-link>
@@ -26,17 +26,25 @@
                 <a @click.prevent="destroyProduct(product.id)" href="#" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
+        <Bootstrap5Pagination :data="products" @pagination-change-page="getProducts" />
         </tbody>
     </table>
+
 </template>
 
 <script>
+import {Bootstrap5Pagination} from "laravel-vue-pagination";
+
 export default {
     name: "Index",
 
+    components: {
+        Bootstrap5Pagination,
+    },
+
     data() {
         return {
-            products: null
+            products: {}
         }
     },
 
@@ -45,10 +53,10 @@ export default {
     },
 
     methods: {
-        getProducts() {
-            axios.get('/api/products')
+        getProducts(page = 1) {
+            axios.get(`/api/products?page=${page}`)
                 .then(res => {
-                    this.products = res.data.data
+                    this.products = res.data
                 })
                 .catch(error => {
                     console.error('Error while fetching products:', error);
