@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $products = Product::all();
+        $products = Product::query()->paginate(5);
 
         return ProductResource::collection($products);
     }
