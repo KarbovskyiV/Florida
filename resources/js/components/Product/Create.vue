@@ -1,18 +1,26 @@
 <template>
     <div class="w-25">
-        <form @submit.prevent="storeProduct" enctype="multipart/form-data">
+        <Form @submit="storeProduct" enctype="multipart/form-data" v-slot:default="{errors}">
             <div class="mb-3">
-                <input type="text" v-model="name" placeholder="name" class="form-control">
+                <input type="text" v-model="name" placeholder="name" class="form-control"
+                       :class="{'is-invalid': name.length === 0 && errors.name}">
+                <span class="invalid-feedback">{{ errors.name }}</span>
             </div>
             <div class="mb-3">
-                <input type="text" v-model="description" placeholder="description" class="form-control">
+                <input type="text" v-model="description" placeholder="description" class="form-control"
+                       :class="{'is-invalid': errors.description}">
+                <span class="invalid-feedback">{{ errors.description }}</span>
             </div>
             <div class="mb-3">
-                <input type="number" v-model="price" placeholder="price" class="form-control">
+                <input type="number" v-model="price" placeholder="price" class="form-control"
+                       :class="{'is-invalid': price.length === 0 && errors.price}">
+                <span class="invalid-feedback">{{ errors.price }}</span>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Select Image</label>
-                <input type="file" id="image" ref="imageInput" @change="handleImageChange" class="form-control">
+                <input type="file" id="image" ref="imageInput" @change="handleImageChange" class="form-control"
+                       :class="{'is-invalid': errors.image}">
+                <span class="invalid-feedback">{{ errors.image }}</span>
             </div>
             <div class="mb-3">
                 <router-link :to="{name: 'product.index'}" class="btn btn-outline-secondary me-3">
@@ -20,25 +28,29 @@
                 </router-link>
                 <button type="submit" class="btn btn-outline-primary">Create</button>
             </div>
-        </form>
+        </Form>
     </div>
 </template>
 
 <script>
+import {Form} from 'vee-validate';
+
 export default {
     name: "Create",
+
+    components: {Form},
 
     data() {
         return {
             name: '',
             description: '',
-            price: null,
-            image: null,
+            price: '',
+            image: '',
         }
     },
 
     methods: {
-        storeProduct() {
+        storeProduct(values, actions) {
             const formData = new FormData();
             formData.append('name', this.name);
             formData.append('image', this.image);
@@ -54,7 +66,7 @@ export default {
                     this.$router.push({name: 'product.index'})
                 })
                 .catch(error => {
-                    console.error('Error while creating product:', error);
+                    actions.setErrors(error.response.data.errors)
                 });
         },
 
